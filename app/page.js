@@ -206,7 +206,7 @@ function HowItWorksSection() {
         <div className="flex flex-col md:flex-row items-center justify-between gap-10 md:gap-16">
 
           <div className="scroll-left shrink-0 w-full md:w-auto flex justify-center">
-            <img src="how-it-works.png" alt="How it works" className="how-img object-contain" style={{ width: "clamp(200px,40vw,320px)", height: "auto" }} />
+            <img src="thinking.png" alt="How it works" className="how-img object-contain" style={{ width: "clamp(200px,40vw,320px)", height: "auto" }} />
           </div>
 
           <div className="flex-1 w-full">
@@ -402,8 +402,8 @@ function ContactSection() {
             </div>
           </div>
 
-          <div className="hidden md:flex flex-col items-center" style={{ maxWidth: 260 }}>
-            <img src="ContactUs.png" alt="Contact" className="contact-img mb-4 object-contain" style={{ width: 200, height: 200 }} />
+          <div className="hidden md:flex flex-col items-center" style={{ maxWidth: 500 }}>
+            <img src="ContactUs.png" alt="Contact" className="contact-img mb-4 object-contain" style={{ width: 500, height: 350 }} />
             <p className="text-center" style={{ fontFamily: FONT_INTER, fontSize: 14, color: "rgba(255,255,255,0.7)", lineHeight: 1.75 }}>
               For support or questions, feel free to contact us at <span className="text-white">support@instroom.io.</span>
             </p>
