@@ -1,37 +1,49 @@
-import Link from "next/link";
-import Image from "next/image";
-import { redirect } from "next/navigation";
-import { getCurrentUser } from "@/lib/session";
+import Link  from "next/link"
+import Image from "next/image"
+import { redirect } from "next/navigation"
+import { getCurrentUser } from "@/lib/session"
 
 // ── ASSETS ────────────────────────────────────────────────────────────────────
-import logo        from "@/assets/logo white.png";
-import thinkingImg from "@/assets/thinking.png";
-import contactImg  from "@/assets/ContactUs.png";
-import timeIcon    from "@/assets/Time.png";
-import touchIcon   from "@/assets/touch.png";
-import influencer  from "@/assets/Influencer.png";
-import analytics   from "@/assets/Analytics.png";
-import yummii      from "@/assets/yummii.png";
-import vital       from "@/assets/vital.png";
-import alcanside   from "@/assets/Alcanside.png";
-import flaske      from "@/assets/flaske.png";
-import dreamfully  from "@/assets/Dreamfully.png";
-import awesome     from "@/assets/AwesomeMaps.png";
-import culistack   from "@/assets/Culistack.png";
-import beemzy      from "@/assets/Beemzy.png";
-import comfit      from "@/assets/comfit.png";
-import dadafunk    from "@/assets/dadafunk.png";
-import flashbook   from "@/assets/flashbook.png";
-import nonoise     from "@/assets/nonoise.png";
-import okura       from "@/assets/Okura.png";
-import remodius    from "@/assets/remodius.png";
-import sylvian     from "@/assets/sylvian.png";
-import tapout      from "@/assets/tapout.png";
-import zippit      from "@/assets/zippit.png";
+import logo        from "@/assets/logo-white.png"
+import thinkingImg from "@/assets/thinking.png"
+import contactImg  from "@/assets/ContactUs.png"
+import timeIcon    from "@/assets/Time.png"
+import touchIcon   from "@/assets/touch.png"
+import influencer  from "@/assets/Influencer.png"
+import analytics   from "@/assets/Analytics.png"
+import yummii      from "@/assets/yummii.png"
+import vital       from "@/assets/vital.png"
+import alcanside   from "@/assets/Alcanside.png"
+import flaske      from "@/assets/flaske.png"
+import dreamfully  from "@/assets/Dreamfully.png"
+import awesome     from "@/assets/AwesomeMaps.png"
+import culistack   from "@/assets/Culistack.png"
+import beemzy      from "@/assets/Beemzy.png"
+import comfit      from "@/assets/comfit.png"
+import dadafunk    from "@/assets/dadafunk.png"
+import flashbook   from "@/assets/flashbook.png"
+import nonoise     from "@/assets/nonoise.png"
+import okura       from "@/assets/Okura.png"
+import remodius    from "@/assets/remodius.png"
+import sylvian     from "@/assets/sylvian.png"
+import tapout      from "@/assets/tapout.png"
+import zippit      from "@/assets/zippit.png"
 
 // ── FONTS ─────────────────────────────────────────────────────────────────────
-const FG = "'Space Grotesk', sans-serif";
-const FI = "'Inter', sans-serif";
+const FG = "'Space Grotesk', sans-serif"
+const FI = "'Inter', sans-serif"
+
+// ── SHARED STYLE TOKENS ───────────────────────────────────────────────────────
+const S = {
+  card:        { backgroundColor: "#0d0d0d" },
+  cardInner:   { backgroundColor: "#111" },
+  green:       { color: "#4ade80" },
+  greenBg:     { backgroundColor: "#166534" },
+  greenBright: { backgroundColor: "#22c55e" },
+  border:      { border: "1px solid rgba(255,255,255,0.08)" },
+  borderGreen: { border: "1px solid rgba(74,222,128,0.25)" },
+  shadow:      { boxShadow: "0 4px 24px rgba(0,0,0,0.4)" },
+}
 
 // ── DATA ──────────────────────────────────────────────────────────────────────
 const NAV_LINKS = [
@@ -40,52 +52,52 @@ const NAV_LINKS = [
   { label: "Pricing",  href: "#pricing"  },
   { label: "About Us", href: "#about"    },
   { label: "Contact",  href: "#contact"  },
-];
+]
 
 const BRANDS = [
-  { name: "yummii yummii", src: yummii    }, { name: "VITAL",        src: vital      },
-  { name: "ALCANSIDE",     src: alcanside }, { name: "FLASKE",       src: flaske     },
-  { name: "Dreamfully",    src: dreamfully}, { name: "Awesome Maps", src: awesome    },
-  { name: "CuliStack",     src: culistack }, { name: "Beemzy",       src: beemzy     },
-  { name: "Comfit",        src: comfit    }, { name: "Dadafunk",     src: dadafunk   },
-  { name: "Flashbook",     src: flashbook }, { name: "No Noise",     src: nonoise    },
-  { name: "Okura",         src: okura     }, { name: "Remodius",     src: remodius   },
-  { name: "Sylvian",       src: sylvian   }, { name: "Tapout",       src: tapout     },
+  { name: "yummii yummii", src: yummii    }, { name: "VITAL",        src: vital     },
+  { name: "ALCANSIDE",     src: alcanside }, { name: "FLASKE",       src: flaske    },
+  { name: "Dreamfully",    src: dreamfully}, { name: "Awesome Maps", src: awesome   },
+  { name: "CuliStack",     src: culistack }, { name: "Beemzy",       src: beemzy    },
+  { name: "Comfit",        src: comfit    }, { name: "Dadafunk",     src: dadafunk  },
+  { name: "Flashbook",     src: flashbook }, { name: "No Noise",     src: nonoise   },
+  { name: "Okura",         src: okura     }, { name: "Remodius",     src: remodius  },
+  { name: "Sylvian",       src: sylvian   }, { name: "Tapout",       src: tapout    },
   { name: "Zippit",        src: zippit    },
-];
+]
 
 const FEATURES = [
   { title: "Engagement Rate Calculation",     desc: "See your audience's interaction level with a quick snapshot of engagement rate on any profile.",                           highlight: false, radius: "28px 28px 28px 4px" },
   { title: "Email & Contact Info Extraction", desc: "Instantly retrieve email addresses from Instagram and TikTok profiles, making influencer outreach easier than ever.",      highlight: true,  radius: "28px"               },
   { title: "Average Likes & Comments",        desc: "Quickly calculate average likes and comments across posts to assess engagement quality.",                                  highlight: false, radius: "28px"               },
   { title: "Followers Count & Location Data", desc: "Get insights into how large a profile's following is and where their audience is based, crucial for targeted campaigns.", highlight: true,  radius: "28px 28px 4px 28px" },
-];
+]
 
 const HOW_STEPS = [
   { number: "1", title: "Install the Extension",    desc: "Add the Instroom Chrome extension to your browser in just a few clicks."                              },
   { number: "2", title: "Open Instagram or TikTok", desc: "Browse any profile, and the extension will automatically fetch the data you need."                    },
   { number: "3", title: "Get the Stats",            desc: "View the engagement rate, average likes, follower count, email, and more – instantly on your screen." },
-];
+]
 
 const WHY_ITEMS = [
   { icon: timeIcon,   title: "Save Time",                         desc: "Stop manually calculating engagement and collecting contact details. Get all the data you need with a single click." },
   { icon: touchIcon,  title: "Easy to Use",                       desc: "No complicated setup. Simply install, click, and get started."                                                       },
   { icon: analytics,  title: "Boost Campaign Performance",        desc: "Know exactly who to reach out to and how to target your audience for better campaign results."                      },
   { icon: influencer, title: "Built for Influencers & Marketers", desc: "Tailored for both influencers and brands, helping you make informed decisions faster."                              },
-];
+]
 
 const PRICING_PLANS = [
-  { price: "$0",   title: "Free Version",                btnText: "Get Started Now",       radius: "28px 28px 28px 4px", desc: "Get basic engagement stats, followers count, and location data for up to 10 profiles per day.", features: []                                                                                                                                      },
-  { price: "$79",  title: "Team Version – $79/month",    btnText: "Upgrade to Pro Now",    radius: "28px",               desc: "", features: ["Included seats: 10", "Max extra seats: 25", "Extra seat cost: $7/mo", "Max influencers: 500", "Max campaigns: 10", "Brands: 3"]                                                        },
+  { price: "$0",   title: "Free Version",                btnText: "Get Started Now",       radius: "28px 28px 28px 4px", desc: "Get basic engagement stats, followers count, and location data for up to 10 profiles per day.", features: [] },
+  { price: "$79",  title: "Team Version – $79/month",    btnText: "Upgrade to Pro Now",    radius: "28px",               desc: "", features: ["Included seats: 10", "Max extra seats: 25", "Extra seat cost: $7/mo", "Max influencers: 500", "Max campaigns: 10", "Brands: 3"] },
   { price: "$199", title: "Agency Version - $199/month", btnText: "Upgrade to Agency Now", radius: "28px 28px 4px 28px", desc: "", features: ["Included seats: 30", "Max extra seats: Unlimited", "Extra seat cost: $5/mo", "Max influencers: Unlimited", "Max campaigns: Unlimited", "Brands: 10"] },
-];
+]
 
 const FAQS = [
   { question: "How do I install the extension?",               answer: `Simply click "Add to Chrome" above, and you'll be ready to go in seconds!`                        },
   { question: "Is my data private?",                           answer: "Yes, Instroom does not store any personal data. All data is fetched in real-time and never saved." },
   { question: "Can I use this for both Instagram and TikTok?", answer: "Absolutely! Instroom works seamlessly on both Instagram and TikTok profiles."                      },
   { question: "What happens if I hit the daily limit?",        answer: "On the free plan, you can analyze up to 10 profiles per day. Upgrade to Pro for unlimited access." },
-];
+]
 
 const CTA_STATS = [
   { label: "Followers",          value: "21.3M",       green: false },
@@ -95,7 +107,7 @@ const CTA_STATS = [
   { label: "Avg. Video Views ⓘ", value: "2.5M",        green: false },
   { label: "Location",           value: "Philippines", green: true  },
   { label: "Remaining Credits",  value: "53",          green: false },
-];
+]
 
 const SOCIAL_LINKS = [
   { label: "TikTok",    href: "#", d: "M9 3h3v10a3 3 0 1 1-3-3V7a7 7 0 1 0 7 7V3h3a3 3 0 0 0 3-3H16a6 6 0 0 1-6 6V3z" },
@@ -103,14 +115,22 @@ const SOCIAL_LINKS = [
   { label: "Facebook",  href: "#", d: "M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" },
   { label: "LinkedIn",  href: "#", d: "M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2zM4 6a2 2 0 1 0 0-4 2 2 0 0 0 0 4z" },
   { label: "YouTube",   href: "#", d: "M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.95C5.12 20 12 20 12 20s6.88 0 8.59-.47a2.78 2.78 0 0 0 1.95-1.95A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58zM9.75 15.02V8.98L15.5 12l-5.75 3.02z" },
-];
+]
 
 const FOOTER_LINKS = [
-  { heading: "Quick Links", items: [{ label: "Privacy Policy", href: "#" }, { label: "Terms & Conditions", href: "#" }, { label: "About Us", href: "#about" }, { label: "Contact Us", href: "#contact" }] },
-  { heading: "Legals",      items: [{ label: "Term Of Service", href: "#" }, { label: "Privacy Policy", href: "#"  }, { label: "Cookie Policy", href: "#" }] },
-];
+  { heading: "Quick Links", items: [
+    { label: "About Us",   href: "#about"   },
+    { label: "Contact Us", href: "#contact" },
+  ]},
+  { heading: "Legals", items: [
+    { label: "Terms of Use",   href: "/term-of-use",   external: false },
+    { label: "Privacy Policy", href: "/privacy-policy", external: false },
+    { label: "Cookie Policy",  href: "/cookie-policy",  external: false },
+  ]},
+]
 
-// ── SHARED STYLES ─────────────────────────────────────────────────────────────
+// ── STYLES ────────────────────────────────────────────────────────────────────
+// Tip: move this into globals.css for cleaner separation of concerns
 const GLOBAL_CSS = `
   @keyframes fadeUp     { from { opacity:0; transform:translateY(28px);  } to { opacity:1; transform:translateY(0);  } }
   @keyframes slideLeft  { from { opacity:0; transform:translateX(-40px); } to { opacity:1; transform:translateX(0);  } }
@@ -118,12 +138,13 @@ const GLOBAL_CSS = `
   @keyframes scaleIn    { from { opacity:0; transform:scale(0.88);       } to { opacity:1; transform:scale(1);        } }
   @keyframes marquee    { from { transform:translateX(0); }                 to { transform:translateX(-50%); }          }
   @keyframes spinBorder { from { --angle:0deg; }                            to { --angle:360deg; }                       }
+  @keyframes shimmer    { 0%{transform:translateX(-120%)} 100%{transform:translateX(120%)} }
+  @keyframes aurora     { 0%,100%{background-position:0% 50%} 50%{background-position:100% 50%} }
+  @keyframes pulseGlow  { 0%,100%{box-shadow:0 0 0 0 rgba(74,222,128,0),0 4px 20px rgba(22,101,52,0.6)} 50%{box-shadow:0 0 0 6px rgba(74,222,128,0.12),0 4px 28px rgba(74,222,128,0.45)} }
   @property --angle { syntax:"<angle>"; initial-value:0deg; inherits:false; }
 
-  /* Hero entrance */
   .fade-up { opacity:0; animation:fadeUp 0.7s ease forwards; }
 
-  /* Scroll-driven entrance (progressive enhancement) */
   @supports (animation-timeline: view()) {
     .scroll-fade  { opacity:0; transform:translateY(28px);  animation:fadeUp     0.6s ease forwards; animation-timeline:view(); animation-range:entry 0% entry 26%; }
     .scroll-left  { opacity:0; transform:translateX(-40px); animation:slideLeft  0.6s ease forwards; animation-timeline:view(); animation-range:entry 0% entry 26%; }
@@ -134,83 +155,79 @@ const GLOBAL_CSS = `
     .scroll-fade,.scroll-left,.scroll-right,.scroll-scale { opacity:1; transform:none; }
   }
 
-  /* Neon spinning border — shared by all hoverable cards */
   .neon-hover { cursor:default; position:relative; transition:transform 0.3s ease,box-shadow 0.3s ease; }
   .neon-hover::before { content:""; position:absolute; inset:-1.5px; border-radius:inherit; background:conic-gradient(from var(--angle),transparent 70%,#4ade80 80%,#86efac 90%,#4ade80 95%,transparent 100%); opacity:0; transition:opacity 0.3s ease; z-index:0; pointer-events:none; }
-  .neon-hover::after  { content:""; position:absolute; inset:1.5px;  border-radius:inherit; background:inherit; z-index:1; pointer-events:none; }
+  .neon-hover::after  { content:""; position:absolute; inset:1.5px; border-radius:inherit; background:inherit; z-index:1; pointer-events:none; }
   .neon-hover > * { position:relative; z-index:2; }
   .neon-hover:hover { transform:translateY(-6px); box-shadow:0 20px 48px rgba(74,222,128,0.15); }
   .neon-hover:hover::before { opacity:1; animation:spinBorder 2s linear infinite; }
 
-  /* Pricing card — spread-only shadow acts as a border immune to pseudo-element stacking */
-  .pricing-card { box-shadow:0 0 0 1.5px rgba(255,255,255,0.22),0 4px 24px rgba(0,0,0,0.55) !important; }
-  .pricing-card:hover { transform:translateY(-6px); box-shadow:0 0 0 1px rgba(255,255,255,0.07),0 24px 56px rgba(74,222,128,0.22) !important; }
+  .pricing-card { box-shadow:0 0 0 1.5px rgba(255,255,255,0.22),0 4px 24px rgba(0,0,0,0.55)!important; }
+  .pricing-card:hover { transform:translateY(-6px); box-shadow:0 0 0 1px rgba(255,255,255,0.07),0 24px 56px rgba(74,222,128,0.22)!important; }
   .pricing-card:hover::before { opacity:1; animation:spinBorder 2s linear infinite; background:conic-gradient(from var(--angle),transparent 60%,#4ade80 75%,#86efac 86%,#4ade80 93%,transparent 100%); }
 
-  /* Brand marquee */
   .brand-track-wrapper { overflow:hidden; width:100%; mask-image:linear-gradient(to right,transparent 0%,black 8%,black 92%,transparent 100%); -webkit-mask-image:linear-gradient(to right,transparent 0%,black 8%,black 92%,transparent 100%); }
   .brand-track { display:flex; flex-wrap:nowrap; align-items:center; width:max-content; gap:72px; padding:12px 0; animation:marquee 40s linear infinite; }
   .brand-track:hover { animation-play-state:paused; }
-  .brand-item  { flex:0 0 auto; display:flex; align-items:center; justify-content:center; height:80px; }
-  .brand-logo  { height:64px!important; width:auto!important; max-width:200px!important; object-fit:contain; opacity:0.65; filter:grayscale(100%) brightness(4) contrast(0.7); transition:opacity 0.4s,filter 0.4s,transform 0.3s; display:block; }
+  .brand-item { flex:0 0 auto; display:flex; align-items:center; justify-content:center; height:80px; }
+  .brand-logo { height:64px!important; width:auto!important; max-width:200px!important; object-fit:contain; opacity:0.65; filter:grayscale(100%) brightness(4) contrast(0.7); transition:opacity 0.4s,filter 0.4s,transform 0.3s; display:block; }
   .brand-logo:hover { opacity:1!important; filter:grayscale(0%) brightness(1) contrast(1)!important; transform:scale(1.1) translateY(-2px); }
 
-  /* Navigation */
   .nav-link { position:relative; transition:color 0.2s; }
   .nav-link::after { content:""; position:absolute; bottom:-2px; left:0; width:0; height:1.5px; background:#4ade80; transition:width 0.25s ease; }
   .nav-link:hover { color:#fff; }
   .nav-link:hover::after { width:100%; }
 
-  /* Buttons */
-  .btn-login,.btn-outline,.btn-solid { transition:all 0.2s; }
-  .btn-login:hover   { background-color:rgba(74,222,128,0.1); }
+  .btn-outline,.btn-solid { transition:all 0.2s; }
   .btn-outline:hover { background-color:rgba(255,255,255,0.05); box-shadow:0 0 16px rgba(255,255,255,0.08); transform:scale(1.03); }
   .btn-solid:hover   { opacity:0.88; transform:scale(1.03); box-shadow:0 4px 18px rgba(22,101,52,0.55); }
-  .btn-login:active,.btn-outline:active,.btn-solid:active { transform:scale(0.96); }
+  .btn-outline:active,.btn-solid:active { transform:scale(0.96); }
 
-  /* Images */
+  .btn-login { position:relative; overflow:hidden; background:rgba(255,255,255,0.06); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); border:1px solid rgba(255,255,255,0.18)!important; color:rgba(255,255,255,0.9); transition:all 0.3s ease; box-shadow:0 2px 12px rgba(0,0,0,0.3),inset 0 1px 0 rgba(255,255,255,0.12); text-decoration:none; display:inline-block; }
+  .btn-login::before { content:""; position:absolute; top:0; left:0; width:45%; height:100%; background:linear-gradient(105deg,transparent 40%,rgba(255,255,255,0.18) 50%,transparent 60%); transform:translateX(-120%); transition:none; }
+  .btn-login:hover { background:rgba(255,255,255,0.11); border-color:rgba(255,255,255,0.32)!important; color:#fff; transform:translateY(-2px); box-shadow:0 6px 24px rgba(0,0,0,0.4),inset 0 1px 0 rgba(255,255,255,0.2); }
+  .btn-login:hover::before { animation:shimmer 0.65s ease forwards; }
+  .btn-login:active { transform:scale(0.96) translateY(0); }
+
+  .btn-signup { position:relative; overflow:hidden; background:linear-gradient(135deg,#14532d,#16a34a,#15803d,#166534,#22c55e,#14532d); background-size:300% 300%; animation:aurora 4s ease infinite,pulseGlow 2.8s ease-in-out infinite; border:1px solid rgba(134,239,172,0.35)!important; color:#fff; font-weight:600; transition:transform 0.25s ease,filter 0.25s ease; text-shadow:0 1px 4px rgba(0,0,0,0.35); text-decoration:none; display:inline-block; }
+  .btn-signup::after { content:"✦"; position:absolute; right:10px; top:50%; transform:translateY(-50%); font-size:9px; opacity:0.7; transition:opacity 0.2s,transform 0.3s; }
+  .btn-signup:hover { transform:translateY(-2px) scale(1.04); filter:brightness(1.12); animation:aurora 2s ease infinite; }
+  .btn-signup:hover::after { opacity:1; transform:translateY(-50%) rotate(90deg); }
+  .btn-signup:active { transform:scale(0.96); }
+
   .hero-img,.how-img,.contact-img { transition:transform 0.45s ease; }
   .hero-img:hover    { transform:scale(1.02) translateY(-4px); }
   .how-img:hover     { transform:scale(1.05); }
   .contact-img:hover { transform:scale(1.05); }
 
-  /* Step numbers */
   .step-num { transition:transform 0.2s,box-shadow 0.2s; cursor:default; }
   .step-num:hover { transform:scale(1.15); box-shadow:0 0 0 6px rgba(34,197,94,0.18); }
 
-  /* CTA widget */
   .cta-card { transition:transform 0.35s ease,box-shadow 0.35s ease; }
   .cta-card:hover { transform:translateY(-6px); box-shadow:0 20px 50px rgba(0,0,0,0.5); }
 
-  /* FAQ */
   .faq-item summary::-webkit-details-marker { display:none; }
   .faq-icon { transition:transform 0.3s ease,background-color 0.25s; }
   details[open] .faq-icon { transform:rotate(45deg); background-color:#22c55e; }
 
-  /* Form & footer */
   .input-field { transition:border-color 0.2s ease; }
   .input-field:focus { border-color:rgba(74,222,128,0.5)!important; }
   .social-icon { display:inline-block; transition:opacity 0.2s,transform 0.2s; }
   .social-icon:hover { opacity:1!important; transform:scale(1.25) translateY(-2px); }
   .footer-link { transition:color 0.15s,padding-left 0.15s; }
   .footer-link:hover { color:rgba(255,255,255,0.9)!important; padding-left:2px; }
-`;
+`
 
-// ── SMALL SHARED PRIMITIVES ───────────────────────────────────────────────────
-
-/** Green pill badge used by pricing cards */
+// ── PRIMITIVES ────────────────────────────────────────────────────────────────
 function PriceBadge({ price }) {
   return (
-    <div
-      className="absolute left-1/2 -translate-x-1/2 z-10 flex items-center justify-center font-bold text-white"
-      style={{ top: "-20px", backgroundColor: "#166534", border: "2px solid rgba(74,222,128,0.45)", borderRadius: 999, padding: "6px 24px", fontFamily: FG, fontSize: 17, whiteSpace: "nowrap", boxShadow: "0 0 18px rgba(74,222,128,0.3)" }}
-    >
+    <div className="absolute left-1/2 -translate-x-1/2 z-10 flex items-center justify-center font-bold text-white"
+      style={{ top: "-20px", ...S.greenBg, border: "2px solid rgba(74,222,128,0.45)", borderRadius: 999, padding: "6px 24px", fontFamily: FG, fontSize: 17, whiteSpace: "nowrap", boxShadow: "0 0 18px rgba(74,222,128,0.3)" }}>
       {price}
     </div>
-  );
+  )
 }
 
-/** Ambient radial-gradient background layer */
 function AmbientBg() {
   return (
     <div className="pointer-events-none fixed inset-0 z-0" aria-hidden="true">
@@ -218,11 +235,22 @@ function AmbientBg() {
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_60%,rgba(18,100,40,0.45)_0%,rgba(8,45,18,0.15)_50%,transparent_72%)]" />
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_40%_at_50%_95%,rgba(15,90,35,0.35)_0%,transparent_65%)]" />
     </div>
-  );
+  )
 }
 
-// ── SECTION COMPONENTS ────────────────────────────────────────────────────────
+// ── SHARED SUB-COMPONENTS ─────────────────────────────────────────────────────
+function NavButtons({ mobile = false }) {
+  const pad = mobile ? { login: "7px 14px", signup: "7px 16px" } : { login: "8px 20px", signup: "8px 26px" }
+  const size = mobile ? "text-sm" : "text-sm lg:text-[15px]"
+  return (
+    <div className="flex items-center gap-1.5">
+      <Link href="/login"  className={`btn-login ${size}`}  style={{ borderRadius: 8, padding: pad.login  }}>Login</Link>
+      <Link href="/signup" className={`btn-signup ${size}`} style={{ borderRadius: 8, padding: pad.signup }}>Sign Up</Link>
+    </div>
+  )
+}
 
+// ── SECTIONS ──────────────────────────────────────────────────────────────────
 function Header() {
   return (
     <header className="absolute top-0 left-0 right-0 z-50 w-full">
@@ -232,21 +260,14 @@ function Header() {
         </Link>
         <nav className="hidden md:flex items-center gap-6 lg:gap-8">
           {NAV_LINKS.map(({ label, href }) => (
-            <Link key={label} href={href} className="nav-link no-underline text-white/80 text-sm lg:text-[15px]" style={{ fontWeight: 400 }}>
-              {label}
-            </Link>
+            <Link key={label} href={href} className="nav-link no-underline text-white/80 text-sm lg:text-[15px]" style={{ fontWeight: 400 }}>{label}</Link>
           ))}
-          <Link href="/login" className="btn-login no-underline text-white text-sm lg:text-[15px]" style={{ fontWeight: 500, border: "1.5px solid #4ade80", borderRadius: 8, padding: "8px 18px" }}>
-            Login
-          </Link>
+          <NavButtons />
         </nav>
-        {/* Mobile login */}
-        <Link href="/login" className="btn-login md:hidden no-underline text-white text-sm" style={{ fontWeight: 500, border: "1.5px solid #4ade80", borderRadius: 8, padding: "7px 16px" }}>
-          Login
-        </Link>
+        <div className="md:hidden"><NavButtons mobile /></div>
       </div>
     </header>
-  );
+  )
 }
 
 function HeroSection() {
@@ -255,13 +276,12 @@ function HeroSection() {
       <div className="pointer-events-none absolute inset-x-0 top-0 h-[140%] bg-[radial-gradient(ellipse_80%_70%_at_50%_40%,rgba(20,110,45,0.75)_0%,rgba(10,55,22,0.3)_50%,transparent_75%)]" />
       <div className="relative mx-auto max-w-7xl px-4 md:px-8 xl:px-12 flex flex-col justify-between" style={{ minHeight: "calc(100vh - 68px)" }}>
 
-        {/* Main hero row */}
         <div className="flex flex-col-reverse md:flex-row items-center justify-between gap-8 py-10 md:py-16">
           <div className="w-full md:max-w-[520px] shrink-0 text-center md:text-left">
             <h1 className="fade-up mb-6 font-bold leading-[1.15]" style={{ fontFamily: FG, fontSize: "clamp(2.2rem,5vw,3.75rem)", animationDelay: "0ms" }}>
               <span className="text-white">The </span>
               <span className="text-white/60">Ultimate Influencer</span><br />
-              <span style={{ color: "#4ade80" }}>Analytics Tool for</span><br />
+              <span style={S.green}>Analytics Tool for</span><br />
               <span className="text-white/60">Instagram </span>
               <span className="text-white">And TikTok</span>
             </h1>
@@ -269,10 +289,13 @@ function HeroSection() {
               Instroom is your go-to Chrome extension for easily extracting key metrics from Instagram and TikTok profiles. Whether you're an influencer, marketer, or brand, quickly get the engagement rate, contact info, followers count, and much more – right from your browser.
             </p>
             <div className="fade-up flex flex-wrap items-center justify-center md:justify-start gap-3" style={{ animationDelay: "240ms" }}>
-              <Link href="https://chrome.google.com/webstore" target="_blank" rel="noopener noreferrer" className="btn-outline rounded-lg text-white no-underline" style={{ fontFamily: FI, fontSize: 14, fontWeight: 500, border: "1.5px solid rgba(255,255,255,0.35)", padding: "12px 20px", whiteSpace: "nowrap" }}>
-                Download the Chrome Extension
+              <Link href="https://chromewebstore.google.com/detail/instroomio/ehgceomekjhamiakclkpgadphbenlmmj" target="_blank" rel="noopener noreferrer"
+                className="btn-outline rounded-lg text-white no-underline"
+                style={{ fontFamily: FI, fontSize: 14, fontWeight: 500, border: "1.5px solid rgba(255,255,255,0.35)", padding: "12px 20px", whiteSpace: "nowrap" }}>
+                Download Chrome Extension
               </Link>
-              <Link href="#pricing" className="btn-solid rounded-lg text-white no-underline" style={{ fontFamily: FI, fontSize: 14, fontWeight: 500, backgroundColor: "#166534", padding: "12px 20px", whiteSpace: "nowrap" }}>
+              <Link href="#pricing" className="btn-solid rounded-lg text-white no-underline"
+                style={{ fontFamily: FI, fontSize: 14, fontWeight: 500, ...S.greenBg, padding: "12px 20px", whiteSpace: "nowrap" }}>
                 Upgrade to Pro Now
               </Link>
             </div>
@@ -282,11 +305,8 @@ function HeroSection() {
           </div>
         </div>
 
-        {/* Brand marquee */}
         <div className="fade-up pb-8 mt-auto" style={{ animationDelay: "320ms" }}>
-          <p className="mb-6 text-center text-white/40" style={{ fontFamily: FI, fontSize: 13 }}>
-            trusted by creators, marketers and agencies worldwide
-          </p>
+          <p className="mb-6 text-center text-white/40" style={{ fontFamily: FI, fontSize: 13 }}>trusted by creators, marketers and agencies worldwide</p>
           <div className="brand-track-wrapper">
             <div className="brand-track">
               {[...BRANDS, ...BRANDS].map(({ name, src }, i) => (
@@ -297,9 +317,10 @@ function HeroSection() {
             </div>
           </div>
         </div>
+
       </div>
     </section>
-  );
+  )
 }
 
 function FeaturesSection() {
@@ -307,17 +328,12 @@ function FeaturesSection() {
     <section id="features" className="relative z-10 w-full py-16 md:py-24">
       <div className="mx-auto max-w-6xl px-4 md:px-8 xl:px-12">
         <div className="scroll-fade mb-12 text-center">
-          <h2 className="font-bold uppercase text-white" style={{ fontFamily: FG, fontSize: "clamp(1.8rem,4vw,2.6rem)", letterSpacing: "0.2em" }}>
-            Key Features
-          </h2>
+          <h2 className="font-bold uppercase text-white" style={{ fontFamily: FG, fontSize: "clamp(1.8rem,4vw,2.6rem)", letterSpacing: "0.2em" }}>Key Features</h2>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {FEATURES.map(({ title, desc, highlight, radius }, i) => (
-            <div
-              key={title}
-              className="scroll-fade neon-hover flex flex-col p-6"
-              style={{ backgroundColor: highlight ? "#1a5c35" : "#0d0d0d", borderRadius: radius, minHeight: 260, boxShadow: highlight ? "0 8px 32px rgba(20,110,45,0.25)" : "0 4px 24px rgba(0,0,0,0.4)", gap: 20, animationDelay: `${i * 80}ms` }}
-            >
+            <div key={title} className="scroll-fade neon-hover flex flex-col p-6"
+              style={{ backgroundColor: highlight ? "#1a5c35" : "#0d0d0d", borderRadius: radius, minHeight: 260, boxShadow: highlight ? "0 8px 32px rgba(20,110,45,0.25)" : "0 4px 24px rgba(0,0,0,0.4)", gap: 20, animationDelay: `${i * 80}ms` }}>
               <h3 className="font-bold text-white text-center" style={{ fontFamily: FG, fontSize: 16, lineHeight: 1.35, letterSpacing: "0.02em" }}>{title}</h3>
               <p className="text-center" style={{ fontFamily: FI, fontSize: 13, color: highlight ? "rgba(255,255,255,0.8)" : "rgba(255,255,255,0.4)", lineHeight: 1.85 }}>{desc}</p>
             </div>
@@ -325,7 +341,7 @@ function FeaturesSection() {
         </div>
       </div>
     </section>
-  );
+  )
 }
 
 function HowItWorksSection() {
@@ -344,9 +360,8 @@ function HowItWorksSection() {
               {HOW_STEPS.map(({ number, title, desc }, i, arr) => (
                 <div key={number} className="scroll-left flex items-start gap-4" style={{ animationDelay: `${i * 100}ms` }}>
                   <div className="flex flex-col items-center">
-                    <div className="step-num flex shrink-0 items-center justify-center font-bold text-white" style={{ width: 36, height: 36, borderRadius: 10, backgroundColor: "#22c55e", fontFamily: FG, fontSize: 15 }}>
-                      {number}
-                    </div>
+                    <div className="step-num flex shrink-0 items-center justify-center font-bold text-white"
+                      style={{ width: 36, height: 36, borderRadius: 10, ...S.greenBright, fontFamily: FG, fontSize: 15 }}>{number}</div>
                     {i < arr.length - 1 && <div className="my-1.5" style={{ width: 2, height: 48, backgroundColor: "rgba(34,197,94,0.25)" }} />}
                   </div>
                   <div className="pb-6">
@@ -360,7 +375,7 @@ function HowItWorksSection() {
         </div>
       </div>
     </section>
-  );
+  )
 }
 
 function WhyChooseSection() {
@@ -368,14 +383,15 @@ function WhyChooseSection() {
     <section id="why-choose" className="relative z-10 w-full py-16 md:py-24">
       <div className="mx-auto max-w-6xl px-4 md:px-8 xl:px-12">
         <div className="scroll-fade mb-14 text-center">
-          <p className="mb-1" style={{ fontFamily: FI, fontSize: 13, color: "#4ade80", letterSpacing: "0.05em", fontWeight: 600 }}>Best Extension</p>
+          <p className="mb-1" style={{ fontFamily: FI, fontSize: 13, ...S.green, letterSpacing: "0.05em", fontWeight: 600 }}>Best Extension</p>
           <h2 className="font-bold text-white" style={{ fontFamily: FG, fontSize: "clamp(1.8rem,4vw,2.6rem)" }}>
-            Why Choose <span style={{ color: "#4ade80" }}>Instroom?</span>
+            Why Choose <span style={S.green}>Instroom?</span>
           </h2>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-16 gap-y-12 max-w-5xl mx-auto">
           {WHY_ITEMS.map(({ icon, title, desc }, i) => (
-            <div key={title} className="scroll-scale neon-hover flex items-start gap-5 p-6" style={{ backgroundColor: "#0d0d0d", borderRadius: 16, animationDelay: `${i * 80}ms` }}>
+            <div key={title} className="scroll-scale neon-hover flex items-start gap-5 p-6"
+              style={{ ...S.card, borderRadius: 16, animationDelay: `${i * 80}ms` }}>
               <div className="shrink-0">
                 <Image src={icon} alt={title} width={52} height={52} style={{ objectFit: "contain", width: 52, height: 52 }} />
               </div>
@@ -388,7 +404,7 @@ function WhyChooseSection() {
         </div>
       </div>
     </section>
-  );
+  )
 }
 
 function PricingSection() {
@@ -397,47 +413,41 @@ function PricingSection() {
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_80%_70%_at_50%_50%,rgba(20,110,45,0.75)_0%,rgba(10,55,22,0.3)_50%,transparent_75%)]" />
       <div className="relative mx-auto max-w-6xl px-4 md:px-8 xl:px-12">
         <div className="scroll-fade mb-12 text-center">
-          <p className="mb-1.5" style={{ fontFamily: FI, fontSize: 13, color: "#4ade80", letterSpacing: "0.05em", fontWeight: 600 }}>Best Pricing</p>
+          <p className="mb-1.5" style={{ fontFamily: FI, fontSize: 13, ...S.green, letterSpacing: "0.05em", fontWeight: 600 }}>Best Pricing</p>
           <h2 className="font-bold text-white" style={{ fontFamily: FG, fontSize: "clamp(1.8rem,4vw,2.6rem)" }}>
-            Our Pricing <span style={{ color: "#4ade80" }}>Plans</span>
+            Our Pricing <span style={S.green}>Plans</span>
           </h2>
         </div>
-
-        {/* pt-8 = room for floating badge above each card */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 pt-8">
           {PRICING_PLANS.map(({ price, title, desc, features, btnText, radius }, i) => (
             <div key={title} className="scroll-fade relative" style={{ animationDelay: `${i * 100}ms` }}>
-
-              {/* Badge is a SIBLING of the card — truly floats above it */}
               <PriceBadge price={price} />
-
-              {/* Card */}
-              <div className="pricing-card neon-hover flex flex-col justify-between pb-8 px-6" style={{ paddingTop: 48, minHeight: 400, borderRadius: radius, backgroundColor: "#0d0d0d" }}>
+              <div className="pricing-card neon-hover flex flex-col justify-between pb-8 px-6"
+                style={{ paddingTop: 48, minHeight: 400, borderRadius: radius, ...S.card }}>
                 <div>
                   <h3 className="mb-4 font-bold text-white text-center" style={{ fontFamily: FG, fontSize: 17 }}>{title}</h3>
-                  {desc ? (
-                    <p className="text-center" style={{ fontFamily: FI, fontSize: 13.5, color: "rgba(255,255,255,0.45)", lineHeight: 1.75 }}>{desc}</p>
-                  ) : (
-                    <ul className="flex flex-col gap-2">
-                      {features.map((f) => (
-                        <li key={f} className="flex items-center gap-2" style={{ fontFamily: FI, fontSize: 13, color: "rgba(255,255,255,0.6)", lineHeight: 1.6 }}>
-                          <span style={{ color: "#4ade80", fontSize: 10 }}>•</span>{f}
-                        </li>
-                      ))}
-                    </ul>
-                  )}
+                  {desc
+                    ? <p className="text-center" style={{ fontFamily: FI, fontSize: 13.5, color: "rgba(255,255,255,0.45)", lineHeight: 1.75 }}>{desc}</p>
+                    : <ul className="flex flex-col gap-2">
+                        {features.map(f => (
+                          <li key={f} className="flex items-center gap-2" style={{ fontFamily: FI, fontSize: 13, color: "rgba(255,255,255,0.6)", lineHeight: 1.6 }}>
+                            <span style={{ ...S.green, fontSize: 10 }}>•</span>{f}
+                          </li>
+                        ))}
+                      </ul>
+                  }
                 </div>
-                <button className="btn-solid mt-6 w-full rounded-lg font-medium text-white" style={{ fontFamily: FI, fontSize: 14, fontWeight: 500, backgroundColor: "#166534", border: "1px solid rgba(74,222,128,0.25)", padding: "13px 0", cursor: "pointer" }}>
+                <button className="btn-solid mt-6 w-full rounded-lg font-medium text-white"
+                  style={{ fontFamily: FI, fontSize: 14, fontWeight: 500, ...S.greenBg, ...S.borderGreen, padding: "13px 0", cursor: "pointer" }}>
                   {btnText}
                 </button>
               </div>
-
             </div>
           ))}
         </div>
       </div>
     </section>
-  );
+  )
 }
 
 function FAQSection() {
@@ -445,15 +455,17 @@ function FAQSection() {
     <section id="faq" className="relative z-10 w-full py-16 md:py-24">
       <div className="mx-auto max-w-3xl px-4 md:px-8 xl:px-12">
         <div className="scroll-fade mb-10 text-center">
-          <h2 className="font-bold" style={{ fontFamily: FG, fontSize: "clamp(1.6rem,4vw,2.4rem)", color: "#4ade80" }}>
+          <h2 className="font-bold" style={{ fontFamily: FG, fontSize: "clamp(1.6rem,4vw,2.4rem)", ...S.green }}>
             Frequently Asked Questions (FAQs)
           </h2>
         </div>
-        <div className="scroll-fade" style={{ border: "1px solid rgba(255,255,255,0.08)", borderRadius: 24, backgroundColor: "#0d0d0d", boxShadow: "0 4px 24px rgba(0,0,0,0.4)", overflow: "hidden" }}>
+        <div className="scroll-fade" style={{ ...S.border, borderRadius: 24, ...S.card, ...S.shadow, overflow: "hidden" }}>
           {FAQS.map(({ question, answer }, i) => (
-            <details key={question} className="faq-item" style={{ borderBottom: i < FAQS.length - 1 ? "1px solid rgba(255,255,255,0.08)" : "none" }}>
+            <details key={question} className="faq-item"
+              style={{ borderBottom: i < FAQS.length - 1 ? "1px solid rgba(255,255,255,0.08)" : "none" }}>
               <summary className="flex cursor-pointer list-none items-center gap-4 px-5 md:px-7 py-5 hover:bg-white/5 active:bg-white/10">
-                <div className="faq-icon flex shrink-0 items-center justify-center font-bold text-white" style={{ backgroundColor: "#166534", border: "1px solid rgba(74,222,128,0.2)", borderRadius: 999, width: 32, height: 32, fontFamily: FG, fontSize: 20, lineHeight: "1" }}>+</div>
+                <div className="faq-icon flex shrink-0 items-center justify-center font-bold text-white"
+                  style={{ ...S.greenBg, border: "1px solid rgba(74,222,128,0.2)", borderRadius: 999, width: 32, height: 32, fontFamily: FG, fontSize: 20, lineHeight: "1" }}>+</div>
                 <span className="font-bold text-white text-sm md:text-base" style={{ fontFamily: FG }}>{question}</span>
               </summary>
               <div className="px-5 md:px-7 pb-5" style={{ fontFamily: FI, fontSize: 14, color: "rgba(255,255,255,0.55)", lineHeight: 1.75 }}>{answer}</div>
@@ -462,7 +474,7 @@ function FAQSection() {
         </div>
       </div>
     </section>
-  );
+  )
 }
 
 function CTASection() {
@@ -474,11 +486,14 @@ function CTASection() {
           <h2 className="mb-6 text-white" style={{ fontFamily: FG, fontSize: "clamp(2rem,5vw,3.25rem)", lineHeight: 1.15, fontWeight: 400 }}>
             Simplify your <strong>Influencer Marketing Workflow.</strong>
           </h2>
-          <Link href="#" className="btn-outline inline-block rounded-lg text-white no-underline" style={{ fontFamily: FI, fontSize: 14, fontWeight: 500, backgroundColor: "#0d0d0d", border: "1px solid rgba(255,255,255,0.15)", padding: "13px 28px" }}>
+          <Link href="https://chromewebstore.google.com/detail/instroomio/ehgceomekjhamiakclkpgadphbenlmmj" target="_blank" rel="noopener noreferrer"
+            className="btn-outline inline-block rounded-lg text-white no-underline"
+            style={{ fontFamily: FI, fontSize: 14, fontWeight: 500, ...S.card, border: "1px solid rgba(255,255,255,0.15)", padding: "13px 28px" }}>
             Get Started Now
           </Link>
         </div>
-        <div className="scroll-right cta-card w-full md:w-[300px] shrink-0" style={{ backgroundColor: "#111", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 16, overflow: "hidden" }}>
+        <div className="scroll-right cta-card w-full md:w-[300px] shrink-0"
+          style={{ ...S.cardInner, border: "1px solid rgba(255,255,255,0.1)", borderRadius: 16, overflow: "hidden" }}>
           <div className="flex items-center gap-2 px-4 py-3" style={{ borderBottom: "1px solid rgba(255,255,255,0.08)" }}>
             <div className="flex h-6 w-6 items-center justify-center rounded-full border border-white/20 text-xs font-bold italic text-green-400">in</div>
             <span className="font-semibold text-white" style={{ fontFamily: FI, fontSize: 14 }}>Instroom</span>
@@ -494,21 +509,26 @@ function CTASection() {
         </div>
       </div>
     </section>
-  );
+  )
 }
 
 function ContactSection() {
+  const inputStyle = { fontFamily: FI, fontSize: 14, border: "1px solid rgba(255,255,255,0.15)", borderRadius: 8, padding: "11px 16px" }
   return (
     <section id="contact" className="relative z-10 w-full overflow-hidden">
       <div className="mx-auto max-w-6xl px-4 md:px-8 py-12 md:py-16 xl:px-12">
-        <div className="scroll-fade neon-hover flex flex-col md:flex-row items-center justify-between gap-8 p-6 md:p-8" style={{ backgroundColor: "#111", borderRadius: 20, boxShadow: "0 4px 24px rgba(0,0,0,0.4)" }}>
+        <div className="scroll-fade neon-hover flex flex-col md:flex-row items-center justify-between gap-8 p-6 md:p-8"
+          style={{ ...S.cardInner, borderRadius: 20, ...S.shadow }}>
           <div className="w-full md:max-w-[340px]">
             <h2 className="mb-5 font-bold text-white" style={{ fontFamily: FG, fontSize: "clamp(1.4rem,3vw,1.75rem)" }}>Contact Us</h2>
             <div className="flex flex-col gap-3">
-              <input type="text"  placeholder="Full Name"     className="input-field w-full bg-transparent text-white placeholder-white/40 outline-none" style={{ fontFamily: FI, fontSize: 14, border: "1px solid rgba(255,255,255,0.15)", borderRadius: 8, padding: "11px 16px" }} />
-              <input type="email" placeholder="Email Address" className="input-field w-full bg-transparent text-white placeholder-white/40 outline-none" style={{ fontFamily: FI, fontSize: 14, border: "1px solid rgba(255,255,255,0.15)", borderRadius: 8, padding: "11px 16px" }} />
-              <textarea placeholder="Message" rows={3} className="input-field w-full resize-none bg-transparent text-white placeholder-white/40 outline-none" style={{ fontFamily: FI, fontSize: 14, border: "1px solid rgba(255,255,255,0.15)", borderRadius: 8, padding: "11px 16px" }} />
-              <button className="btn-solid w-fit rounded-lg font-medium text-white" style={{ fontFamily: FI, fontSize: 14, fontWeight: 500, backgroundColor: "#166534", border: "1px solid rgba(74,222,128,0.2)", padding: "11px 28px", cursor: "pointer" }}>Submit →</button>
+              <input type="text"   placeholder="Full Name"     className="input-field w-full bg-transparent text-white placeholder-white/40 outline-none" style={inputStyle} />
+              <input type="email"  placeholder="Email Address" className="input-field w-full bg-transparent text-white placeholder-white/40 outline-none" style={inputStyle} />
+              <textarea            placeholder="Message" rows={3} className="input-field w-full resize-none bg-transparent text-white placeholder-white/40 outline-none" style={inputStyle} />
+              <button className="btn-solid w-fit rounded-lg font-medium text-white"
+                style={{ fontFamily: FI, fontSize: 14, fontWeight: 500, ...S.greenBg, border: "1px solid rgba(74,222,128,0.2)", padding: "11px 28px", cursor: "pointer" }}>
+                Submit →
+              </button>
             </div>
           </div>
           <div className="hidden md:flex flex-col items-center" style={{ maxWidth: 500 }}>
@@ -520,7 +540,7 @@ function ContactSection() {
         </div>
       </div>
     </section>
-  );
+  )
 }
 
 function Footer() {
@@ -547,10 +567,13 @@ function Footer() {
             <div key={heading}>
               <h4 className="mb-4 font-semibold text-white" style={{ fontFamily: FG, fontSize: 16 }}>{heading}</h4>
               <ul className="flex flex-col gap-2">
-                {items.map(({ label, href }) => (
+                {items.map(({ label, href, external }) => (
                   <li key={label} className="flex items-center gap-2">
-                    <span style={{ color: "#4ade80", fontSize: 8 }}>•</span>
-                    <a href={href} className="footer-link" style={{ fontFamily: FI, fontSize: 13, color: "rgba(255,255,255,0.5)", textDecoration: "none" }}>{label}</a>
+                    <span style={{ ...S.green, fontSize: 8 }}>•</span>
+                    {external
+                      ? <a href={href} target="_blank" rel="noopener noreferrer" className="footer-link" style={{ fontFamily: FI, fontSize: 13, color: "rgba(255,255,255,0.5)", textDecoration: "none" }}>{label}</a>
+                      : <Link href={href} className="footer-link" style={{ fontFamily: FI, fontSize: 13, color: "rgba(255,255,255,0.5)", textDecoration: "none" }}>{label}</Link>
+                    }
                   </li>
                 ))}
               </ul>
@@ -558,15 +581,20 @@ function Footer() {
           ))}
         </div>
       </div>
+      <div style={{ borderTop: "1px solid rgba(255,255,255,0.06)", backgroundColor: "#080f08" }}>
+        <p className="text-center py-4" style={{ fontFamily: FI, fontSize: 12, color: "rgba(255,255,255,0.35)" }}>
+          Copyright © 2026 Instroom.io. All rights reserved.
+        </p>
+      </div>
     </footer>
-  );
+  )
 }
 
 // ── PAGE ──────────────────────────────────────────────────────────────────────
 export default async function Home() {
-  let user = null;
-  try { user = await getCurrentUser(); } catch (_) {}
-  if (user) redirect("/dashboard");
+  let user = null
+  try { user = await getCurrentUser() } catch (_) {}
+  if (user) redirect("/dashboard")
 
   return (
     <div className="flex min-h-screen flex-col" style={{ backgroundColor: "#050e05" }}>
@@ -585,5 +613,5 @@ export default async function Home() {
       </main>
       <Footer />
     </div>
-  );
+  )
 }
